@@ -1,0 +1,3 @@
+[submodule "elgg-docker/Elgg"]
+	path = elgg-docker/Elgg
+	url = https://github.com/Elgg/Elgg.git
