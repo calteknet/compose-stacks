@@ -1,0 +1,3 @@
+[submodule "rosariosis"]
+	path = rosariosis
+	url = https://github.com/francoisjacquet/docker-rosariosis.git
