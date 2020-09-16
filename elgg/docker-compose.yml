@@ -30,4 +30,3 @@ services:
     command: install --ignore-platform-reqs --no-scripts
     volumes:
       - ${PWD}/Elgg:/app
-

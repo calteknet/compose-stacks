@@ -11,4 +11,3 @@ RUN set -xe && \
 
 RUN mkdir /elgg && chown -R www-data:www-data /elgg && \
     a2enmod rewrite
-
