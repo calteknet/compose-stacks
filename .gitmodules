@@ -1,3 +1,6 @@
 [submodule "rosariosis"]
 	path = rosariosis
 	url = https://github.com/francoisjacquet/docker-rosariosis.git
+[submodule "elgg/Elgg"]
+	path = elgg/Elgg
+	url = https://github.com/Elgg/Elgg.git
