@@ -9,5 +9,11 @@ RUN set -xe && \
       --with-jpeg-dir=/usr/include/ && \
     docker-php-ext-install -j$(nproc) gd pdo_mysql
 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
 RUN mkdir /elgg && chown -R www-data:www-data /elgg && \
-    a2enmod rewrite
+    a2enmod rewrite && \
+    chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["apache2-foreground"]
