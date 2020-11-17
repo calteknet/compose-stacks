@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb:10.4
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    restart: always
+    env_file:
+      - db-vars.env
+    expose:
+      - "3306"
+    volumes:
+      - db:/var/lib/mysql
+  app:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    restart: always
+    ports:
+      - ${APP_PORT}:80
+    volumes:
+      - ${PWD}/Elgg:/var/www/html
+      - data:/elgg
+  composer:
+    image: composer:1.8.5
+    restart: "no"
+    command: install --ignore-platform-reqs --no-scripts
+    volumes:
+      - ${PWD}/Elgg:/app
+volumes:
+  data:
+  db:
