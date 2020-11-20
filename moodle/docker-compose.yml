@@ -1,5 +1,5 @@
 # This Docker compose file is written to configure services required to deploy Moodle, e-learning platform,
-# on containers.
+# on containers
 # Author: Zainab Alsaffar
 version: '3'
 volumes:

@@ -8,4 +8,4 @@ toc::[]
 
 == Description
 
-This repo contains a Docker Compose file developed to help automate the deployment of Moodle on Docker Containers.
+This repo contains a Docker Compose file developed to help automate the deployment of Moodle on Docker Containers!
