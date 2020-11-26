@@ -1,41 +1,33 @@
-# This Docker compose file is written to configure services required to deploy Moodle, e-learning platform,
-# on containers
-# Author: Zainab Alsaffar
 version: '3'
 volumes:
-  mariadb-data:
-    driver: local
-  moodle-data:
-    driver: local
+  mariadb-dataa:
+    driver: local
+  moodle-dataa:
+    driver: local
 networks:
-    moodle-network:
+    moodle-network:
 services:
-  mariadb:
-    image: 'mariadb:latest'
-    container_name: mariadb
-    environment:
-      MYSQL_ROOT_PASSWORD: YOUR_PASSWORD
-      MYSQL_DATABASE: moodle
-      MYSQL_USER: moodle
-      MYSQL_PASSWORD: YOUR_PASSWORD
-    volumes:
-      - 'mariadb-data:/var/lib/mysql'
-    networks:
-      - moodle-network
-  moodle:
-    image: 'bitnami/moodle:latest'
-    container_name: moodle
-    environment:
-      MOODLE_DATABASE_HOST: mariadb
-      MOODLE_DATABASE_USER: moodle
-      MOODLE_DATABASE_NAME: moodle
-      MOODLE_DATABASE_PASSWORD: YOUR_PASSWORD
-    ports:
-      - '80:8080'
-      - '443:8443'
-    volumes:
-      - 'moodle-data:/bitnami/moodle'
-    depends_on:
-      - mariadb
-    networks:
-      - moodle-network
+  mariadb2:
+    image: 'mariadb:latest'
+    container_name: mariadb2
+    env_file: db-vars.env
+    volumes:
+      - 'mariadb-dataa:/var/lib/mysql'
+    networks:
+      - moodle-network
+  moodle2:
+    image: 'bitnami/moodle:latest'
+    container_name: moodle2
+    env_file: moodle-vars.env
+    ports:
+      - '80:8080'
+      - '443:8443'
+    volumes:
+      - 'moodle-dataa:/bitnami/moodle'
+    depends_on:
+      - mariadb2
+    networks:
+      - moodle-network
+
+
+
