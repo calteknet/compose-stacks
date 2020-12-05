@@ -1,33 +1,30 @@
 version: '3'
 volumes:
-  mariadb-dataa:
+  mariadb-data:
     driver: local
-  moodle-dataa:
+  moodle-data:
     driver: local
 networks:
     moodle-network:
 services:
-  mariadb2:
+  mariadb:
     image: 'mariadb:latest'
-    container_name: mariadb2
+    container_name: mariadb
     env_file: db-vars.env
     volumes:
-      - 'mariadb-dataa:/var/lib/mysql'
+      - 'mariadb-data:/var/lib/mysql'
     networks:
       - moodle-network
-  moodle2:
+  moodle:
     image: 'bitnami/moodle:latest'
-    container_name: moodle2
+    container_name: moodle
     env_file: moodle-vars.env
     ports:
       - '80:8080'
       - '443:8443'
     volumes:
-      - 'moodle-dataa:/bitnami/moodle'
+      - 'moodle-data:/bitnami/moodle'
     depends_on:
-      - mariadb2
+      - mariadb
     networks:
       - moodle-network
-
-
-
