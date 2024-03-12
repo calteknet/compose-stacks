@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: your_username
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  app1:
+    image: your_app1_image:tag
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://your_username:your_password@postgres/your_database
+
+  app2:
+    image: your_app2_image:tag
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://your_username:your_password@postgres/your_database
+
+volumes:
+  pg_data:
