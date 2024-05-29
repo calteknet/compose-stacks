@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  mariadb:
+    image: 'mariadb:latest'
+    container_name: mariadb
+    env_file: db-vars.env
+    volumes:
+      - 'mariadb-data:/var/lib/mysql'
+    networks:
+      - elgg-network
+
+  elgg:
+    image: 'omnidapps/elgg:latest'
+    container_name: elgg 
+    env_file: elgg-vars.env
+    ports:
+      - '9000'
+    # volumes:
+    #   - 'elgg-data:/bitnami/moodle'
+    depends_on:
+      - mariadb
+    networks:
+      - elgg-network
+  
+  nginx:
+    image: 'omnidapps/nginx:latest'
+    container_name: nginx
+    ports:
+      - "${NGINX_PORT}:80"
+    env_file: nginx.env
+    depends_on:
+      - elgg
+    networks:
+      - elgg-network
+
+volumes:
+  mariadb-dataa:
+    driver: local
+  elgg-data:
+    driver: local
+
+networks:
+  elgg-network:
