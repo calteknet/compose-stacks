@@ -11,11 +11,11 @@ services:
       - elgg-network
 
   elgg:
-    image: 'omnidapps/elgg:latest'
+    image: 'localhost/calteknet/elgg:latest'
     container_name: elgg 
-    env_file: elgg-vars.env
+    # env_file: elgg-vars.env
     ports:
-      - '9000'
+      - 9000
     # volumes:
     #   - 'elgg-data:/bitnami/moodle'
     depends_on:
@@ -24,18 +24,22 @@ services:
       - elgg-network
   
   nginx:
-    image: 'omnidapps/nginx:latest'
+    image: 'localhost/calteknet/nginx:latest'
     container_name: nginx
     ports:
-      - "${NGINX_PORT}:80"
-    env_file: nginx.env
+      - $NGINX_PORT:8000
+    links:
+      - elgg:php-fpm
     depends_on:
       - elgg
     networks:
       - elgg-network
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
 
 volumes:
-  mariadb-dataa:
+  mariadb-data:
     driver: local
   elgg-data:
     driver: local
