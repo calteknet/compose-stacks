@@ -1,31 +1,34 @@
 version: '3'
 
 services:
-  mariadb:
-    image: 'mariadb:latest'
-    container_name: mariadb
-    env_file: db-vars.env
+  db:
+    image: 'mariadb'
     volumes:
-      - 'mariadb-data:/var/lib/mysql'
+      - mariadb-data:/var/lib/mysql
+    environment:
+      - MYSQL_USER=$DATABASE_USER
+      - MYSQL_PASSWORD=$DATABASE_PASSWORD
+      - MYSQL_DATABASE=$DATABASE_NAME
+      - MARIADB_RANDOM_ROOT_PASSWORD=1
     networks:
       - elgg-network
 
   elgg:
-    image: 'localhost/calteknet/elgg:latest'
-    container_name: elgg 
-    # env_file: elgg-vars.env
+    image: 'calteknet/elgg:latest'
+    user: ctn
     ports:
       - 9000
-    # volumes:
-    #   - 'elgg-data:/bitnami/moodle'
     depends_on:
-      - mariadb
+      - db
     networks:
       - elgg-network
+    volumes:
+      - static-data:/opt/static
+      - elgg-data:/opt/data
   
   nginx:
     image: 'localhost/calteknet/nginx:latest'
-    container_name: nginx
+    user: ctn
     ports:
       - $NGINX_PORT:8000
     links:
@@ -34,12 +37,16 @@ services:
       - elgg
     networks:
       - elgg-network
+    volumes:
+      - static-data:/opt/static
+    # cap_add:
+    #   - NET_ADMIN
+    #   - NET_RAW
 
 volumes:
   mariadb-data:
-    driver: local
   elgg-data:
-    driver: local
+  static-data:
 
 networks:
   elgg-network:
