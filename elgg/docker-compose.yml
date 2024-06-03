@@ -34,9 +34,6 @@ services:
       - elgg
     networks:
       - elgg-network
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
 
 volumes:
   mariadb-data:
