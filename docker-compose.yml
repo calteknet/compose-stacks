@@ -1,0 +1,69 @@
+version: '3.8'
+services:
+  odoo16:
+    image: kwyrick/odoo16-custom:latest
+    command: odoo -i base -d odoo --without-demo=all
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - /home/kmw/odoo-stack/config:/etc/odoo
+      - /home/kmw/odoo-stack/addons:/mnt/extra-addons
+    environment:
+      - HOST=209.182.236.185
+      - PORT=5432
+      - USER=odoo
+      - PASSWORD=gaiter1990
+      - DATABASE=odoo
+      - RESET_DB=${RESET_DB:-0}
+    networks:
+      - odoo_pg_network
+      - traefik-public
+    deploy:
+      placement:
+        constraints:
+          - node.labels.postgres_node == 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.odoo16.rule=Host(`16.caltek.net`)"
+        - "traefik.http.routers.odoo16.entrypoints=websecure"
+        - "traefik.http.routers.odoo16.tls.certresolver=myresolver"
+        - "traefik.http.services.odoo16.loadbalancer.server.port=8069"
+
+  odoo17:
+    image: kwyrick/odoo17-custom:latest
+    command: odoo -i base -d odoo17_new --without-demo=all
+    volumes:
+      - odoo17_data:/var/lib/odoo
+      - /home/kmw/odoo17-stack/config:/etc/odoo
+      - /home/kmw/odoo17-stack/addons:/mnt/extra-addons
+    environment:
+      - HOST=209.182.236.185
+      - PORT=5432
+      - USER=odoo
+      - PASSWORD=gaiter1990
+      - DATABASE=odoo17_new
+      - RESET_DB=${RESET_DB:-0}
+    networks:
+      - odoo_pg_network
+      - traefik-public
+    deploy:
+      placement:
+        constraints:
+          - node.labels.postgres_node == 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.odoo17.rule=Host(`dev.caltek.net`)"
+        - "traefik.http.routers.odoo17.entrypoints=websecure"
+        - "traefik.http.routers.odoo17.tls.certresolver=myresolver"
+        - "traefik.http.services.odoo17.loadbalancer.server.port=8069"
+
+networks:
+  odoo_pg_network:
+    external: true
+  traefik-public:
+    external: true
+
+volumes:
+  odoo_data:
+    driver: local
+  odoo17_data:
+    driver: local

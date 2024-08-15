@@ -1,0 +1,14 @@
+FROM odoo:16
+
+# Install additional dependencies if needed
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy custom entrypoint script
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
+# Set the custom entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["odoo"]
