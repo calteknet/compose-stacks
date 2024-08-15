@@ -8,10 +8,10 @@ services:
       - /home/kmw/odoo-stack/config:/etc/odoo
       - /home/kmw/odoo-stack/addons:/mnt/extra-addons
     environment:
-      - HOST=209.182.236.185
+      - HOST=localhost
       - PORT=5432
       - USER=odoo
-      - PASSWORD=gaiter1990
+      - PASSWORD=odoopassword
       - DATABASE=odoo
       - RESET_DB=${RESET_DB:-0}
     networks:
@@ -36,10 +36,10 @@ services:
       - /home/kmw/odoo17-stack/config:/etc/odoo
       - /home/kmw/odoo17-stack/addons:/mnt/extra-addons
     environment:
-      - HOST=209.182.236.185
+      - HOST=localhost
       - PORT=5432
       - USER=odoo
-      - PASSWORD=gaiter1990
+      - PASSWORD=odoopassword
       - DATABASE=odoo17_new
       - RESET_DB=${RESET_DB:-0}
     networks:
