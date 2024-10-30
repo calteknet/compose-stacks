@@ -1,0 +1,50 @@
+# /home/kmw/config/odoo1/odoo.conf
+[options]
+addons_path = /usr/lib/python3/dist-packages/odoo/addons,/var/lib/odoo/addons/17.0,/mnt/extra-addons
+data_dir = /var/lib/odoo
+db_host = postgres
+db_port = 5432
+db_user = odoo
+db_password = myodoo
+http_port = 8069
+proxy_mode = True
+admin_passwd = Gaiter1990!
+list_db = True
+dbfilter = ^votecarrie.*
+workers = 2
+max_cron_threads = 1
+log_level = info
+
+# /home/kmw/config/odoo2/odoo.conf
+[options]
+addons_path = /usr/lib/python3/dist-packages/odoo/addons,/var/lib/odoo/addons/17.0,/mnt/extra-addons
+data_dir = /var/lib/odoo
+db_host = postgres
+db_port = 5432
+db_user = odoo
+db_password = myodoo
+http_port = 8069
+proxy_mode = True
+admin_passwd = Gaiter1990!
+list_db = True
+dbfilter = ^cmclatimer.*
+workers = 2
+max_cron_threads = 1
+log_level = info
+
+# /home/kmw/config/odoo3/odoo.conf
+[options]
+addons_path = /usr/lib/python3/dist-packages/odoo/addons,/var/lib/odoo/addons/17.0,/mnt/extra-addons
+data_dir = /var/lib/odoo
+db_host = postgres
+db_port = 5432
+db_user = odoo
+db_password = myodoo
+http_port = 8069
+proxy_mode = True
+admin_passwd = Gaiter1990!
+list_db = True
+dbfilter = ^shec.*
+workers = 2
+max_cron_threads = 1
+log_level = info
