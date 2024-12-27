@@ -1,9 +1,7 @@
 version: "3.8"
 services:
   qtk-web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: qtk/nginx:alpine
     networks:
       - traefik-public
     deploy:
@@ -21,7 +19,7 @@ services:
           memory: 1G
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.qtk.rule=Host(`queentheresaking.com`)"
+        - "traefik.http.routers.qtk.rule=Host(`queentheresaking.com`) || Host(`199.241.139.123`)"
         - "traefik.http.routers.qtk.entrypoints=websecure"
         - "traefik.http.routers.qtk.tls=true"
         - "traefik.http.routers.qtk.tls.certresolver=letsencrypt"

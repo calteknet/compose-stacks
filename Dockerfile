@@ -1,13 +1,23 @@
 # Build stage
-FROM node:alpine as build
+FROM node:alpine AS builder
 WORKDIR /app
-COPY package*.json ./
+
+# Copy package files from staging directory
+COPY Queen-Theresa-King-staging/package*.json ./
+
+# Install dependencies
 RUN npm install
-COPY . .
+
+# Copy all other files from staging directory
+COPY Queen-Theresa-King-staging/ .
+
+# Build the app
 RUN npm run build
 
 # Production stage
 FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
+# Copy built assets from builder
+COPY --from=builder /app/build /usr/share/nginx/html
+# Add nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 8080
