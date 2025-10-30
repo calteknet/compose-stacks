@@ -1,0 +1,20 @@
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: ${LETSENCRYPT_EMAIL}
+      storage: /letsencrypt/acme.json
+      tlsChallenge: true
+
+
+http:
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+
+  # Only use certResolver if not in development
+  # {{- if ne (env "TRAEFIK_ENV") "development" }}
+  # certResolver: letsencrypt
+  # {{- end }}

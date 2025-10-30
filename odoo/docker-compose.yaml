@@ -1,0 +1,53 @@
+services:
+  odoo:
+    image: odoo:18.0
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.odoo.rule=Host(\"${TRAEFIK_HOST}\")"
+      - "traefik.http.routers.odoo.entrypoints=web"
+      - "traefik.http.routers.odoo.middlewares=redirect-to-https@file"
+      - "traefik.http.routers.odoo-secure.rule=Host(\"${TRAEFIK_HOST}\")"
+      - "traefik.http.routers.odoo-secure.entrypoints=websecure"
+      - "traefik.http.routers.odoo-secure.tls=true"
+      # - "traefik.http.routers.odoo-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.services.odoo.loadbalancer.server.port=8069"
+
+  db:
+    image: postgres:17
+    volumes:
+      - odoo-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+
+  traefik:
+    image: traefik
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.file.filename=/etc/traefik/traefik_dynamic.yaml
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --log.level=INFO
+      - --api.dashboard=true
+      - --api.insecure=true
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
+      - traefik-letsencrypt:/letsencrypt
+    environment:
+      - TRAEFIK_HOST=${TRAEFIK_HOST}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - TRAEFIK_ENV=${TRAEFIK_ENV}
+
+volumes:
+  odoo-db:
+
+  traefik-letsencrypt:
